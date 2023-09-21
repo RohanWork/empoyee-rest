@@ -4,12 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.rest.rohan.mapper.entity.EmployeeEntity;
 import com.rest.rohan.response.EmployeeResponse;
@@ -41,7 +36,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping (value = "/employees", produces = "application/json; charset=UTF-8")
-	public ResponseEntity<EmployeeResponse> createEmployee(EmployeeEntity request) throws Exception{
+	public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeEntity request) throws Exception{
 		EmployeeResponse response = new EmployeeResponse();
 		response.setStatusCode(HttpStatus.OK.value());
 		response.setStatusMessage("Success");

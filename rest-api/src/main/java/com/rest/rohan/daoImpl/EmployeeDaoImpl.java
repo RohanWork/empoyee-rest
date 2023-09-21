@@ -20,7 +20,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	private final String tableName1 = "employees";
-	private final String tableName2 = "employees_audit";
+	protected final String tableName2 = "employees_audit";
 	
 	private String sqlAllEmployees() throws Exception{
 		return "select distinct * from "+tableName1+" order by empid";
@@ -33,10 +33,11 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	private String sqlAddEmployeeToEM() {
 		return "INSERT INTO "+tableName1+" (empid, fname, lname, mailid, department, location, salary) VALUES (:empid, :fname, :lname, :mailid, :department, :location, :salary)";
 	}
-	
+
 	private String sqlAddEmployeeToEA() {
-		return "INSERT INTO "+tableName2+" VALUES (empid, fname, lname, mailid, department, location, salary, action, row_del_tms)";
+		return "INSERT INTO "+tableName2+" (empid, fname, lname, mailid, department, location, salary, action, row_ins_tms, row_del_tms) VALUES (:empid, :fname, :lname, :mailid, :department, :location, :salary, :action, :row_ins_tms, :row_del_tms)";
 	}
+
 
 	@Override
 	public List<EmployeeEntity> getAllEmployees() throws Exception {
@@ -71,7 +72,7 @@ public class EmployeeDaoImpl implements EmployeeDao{
 	}
 	
 	@Override
-	public int createEmployee(EmployeeEntity request) throws Exception{
+	public int createEmployee(EmployeeEntity request) throws Exception {
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("empid", request.getEmpid());
 		params.addValue("fname", request.getFname());
@@ -80,14 +81,26 @@ public class EmployeeDaoImpl implements EmployeeDao{
 		params.addValue("department", request.getDepartment());
 		params.addValue("location", request.getLocation());
 		params.addValue("salary", request.getSalary());
-		
-//		int rowCount = namedParameterJdbcTemplate.update(sqlAddEmployeeToEA(), params);
-//		
-//		if (rowCount!=1) {
-//			throw new ValidationException("Error while adding new employee to audit table");
-//		}
-//		else
-			return namedParameterJdbcTemplate.update(sqlAddEmployeeToEM(), params);
+
+		int rowCount = namedParameterJdbcTemplate.update(sqlAddEmployeeToEM(), params);
+
+		if (rowCount!=1) {
+			throw new ValidationException("Error while adding new employee to table");
+		}
+		else
+		{
+			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
+
+			params.addValue("action", "insert");
+			params.addValue("row_ins_tms", currentTimestamp);
+			params.addValue("row_del_tms", null);
+			int res = namedParameterJdbcTemplate.update(sqlAddEmployeeToEA(), params);
+
+			if (res!=1)
+				throw new ValidationException("Error while adding new employee to audit table");
+			else
+				return res;
+		}
 	}
 
 }
