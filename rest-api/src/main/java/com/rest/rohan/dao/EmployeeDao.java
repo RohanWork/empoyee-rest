@@ -10,5 +10,11 @@ public interface EmployeeDao {
 	
 	List<EmployeeEntity> getEmployeeById(int empid) throws Exception;
 	
-	public int createEmployee(EmployeeEntity request) throws Exception;
+	int createEmployee(EmployeeEntity request) throws Exception;
+
+	List<EmployeeEntity> auditTable(int empid) throws Exception;
+
+	int deleteEmployee(int empid) throws Exception;
+
+	int verifyRecords() throws Exception;
 }

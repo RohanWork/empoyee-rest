@@ -17,4 +17,6 @@ public class EmployeeResponse extends BaseResponse{
 	
 	public List<EmployeeEntity> createEmployee;
 
+	public List<EmployeeEntity> auditTable;
+
 }

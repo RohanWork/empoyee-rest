@@ -8,10 +8,13 @@ import com.rest.rohan.mapper.entity.EmployeeEntity;
 
 public interface EmployeeService {
 	
-	public List<EmployeeEntity> getAllEmployees() throws Exception;
+	List<EmployeeEntity> getAllEmployees() throws Exception;
 	
-	public List<EmployeeEntity> getEmployeeById(int empid) throws Exception;
+	List<EmployeeEntity> getEmployeeById(int empid) throws Exception;
 	
-	public void createEmployee(EmployeeEntity request) throws Exception;
+	void createEmployee(EmployeeEntity request) throws Exception;
 
+	List<EmployeeEntity> auditTable(int empid) throws Exception;
+
+	void deleteEmployee(int empid) throws Exception;
 }

@@ -44,4 +44,23 @@ public class EmployeeController {
 		employeeService.createEmployee(request);
 		return ResponseEntity.ok(response);
 	}
+
+	@GetMapping (value = "/employeesAudit/{empid}", produces = "application/json; charset=UTF-8")
+	public ResponseEntity<EmployeeResponse> auditTable(@PathVariable int empid) throws Exception{
+		EmployeeResponse response = new EmployeeResponse();
+		response.setStatusCode(HttpStatus.OK.value());
+		response.setStatusMessage("Success");
+		response.setAuditTable(employeeService.auditTable(empid));
+		return ResponseEntity.ok(response);
+	}
+
+	@GetMapping (value = "/employeeDelete/{empid}", produces = "application/json; charset=UTF-8")
+	public ResponseEntity<EmployeeResponse> deleteEmployee(@PathVariable int empid) throws Exception{
+		EmployeeResponse response = new EmployeeResponse();
+		response.setStatusCode(HttpStatus.OK.value());
+		response.setStatusMessage("Success");
+		employeeService.deleteEmployee(empid);
+		return ResponseEntity.ok(response);
+	}
+
 }
