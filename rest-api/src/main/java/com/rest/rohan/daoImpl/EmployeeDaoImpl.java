@@ -137,7 +137,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			param.addValue("row_del_tms",currentTimestamp);
 			int rowAffect = namedParameterJdbcTemplate.update(sqlUpdateAuditTable(), param);
 			if (rowAffect!=1){
-				throw new ValidationException("Error while deleting record from audit");
+				throw new ValidationException("Error while updating audit table in delete DAOIMPL");
 			}
 			else
 				return rowAffect;
