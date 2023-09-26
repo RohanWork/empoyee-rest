@@ -25,7 +25,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		List<EmployeeEntity> employees = employeeDao.getAllEmployees();
 		
 		if (employees.isEmpty())
-			throw new ValidationException("Not able to retrieve any records from the database");
+			throw new ValidationException("Not able to retrieve any records from the database (SI:L:28)");
 		else
 			return employees;		
 	}
@@ -42,19 +42,14 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public void createEmployee(EmployeeEntity request) throws Exception{
 		List<EmployeeEntity> employeeIds = employeeDao.getAllEmployees();
-
 		boolean exists = employeeIds.stream().anyMatch(employee -> employee.getEmpid() == request.getEmpid() || employee.getMailid().equals(request.getMailid()));
-
 		if (exists)
 			throw new ValidationException("The empid/mailid already exists hence cannot create record");
 		else
 		{
 			int rowsAffected = employeeDao.createEmployee(request);
-			
 			if (rowsAffected!=1)
-				throw new ValidationException("Error while adding new employee");
-			else
-				return;
+				throw new ValidationException("Error while adding new employee (SI:L:52)");
 		}
 	}
 
@@ -62,11 +57,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<EmployeeEntity> auditTable(int empid) throws Exception{
 		int rowPresent = isRecordExists(empid);
 		if (rowPresent==0)
-			throw new ValidationException("Employee recored not available");
+			throw new ValidationException("Employee recored not available (SI:L:60)");
 		else {
 			List<EmployeeEntity> auditRecord = employeeDao.auditTable(empid);
 			if (auditRecord.isEmpty())
-				throw new ValidationException("Not able to retrieve any records from the database");
+				throw new ValidationException("Not able to retrieve any records from the database (SI:L:64)");
 			else
 				return auditRecord;
 		}
@@ -76,17 +71,26 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public void deleteEmployee(int empid) throws Exception{
 		int rowPresent = isRecordExists(empid);
 		if (rowPresent==0)
-			throw new ValidationException("Employee recored not available");
+			throw new ValidationException("Employee recored not available (SI:L:74)");
 		else {
 			int rowCount = verifyRecords();
 			if (rowCount == 1)
-				throw new ValidationException("Only one record is present not able to perform delete operation");
+				throw new ValidationException("Only one record is present not able to perform delete operation (SI:L:78)");
 			else {
 				int rowResult = employeeDao.deleteEmployee(empid);
 				if (rowResult != 1)
-					throw new ValidationException("Error while deleting record SERIMPL");
+					throw new ValidationException("Error while deleting record (SI:L:82)");
 			}
 		}
+	}
+
+	@Override
+	public void updateEmployee(EmployeeEntity employeeEntity) throws Exception {
+		int rowPresent = isRecordExists(employeeEntity.getEmpid());
+		if (rowPresent==0)
+			throw new ValidationException("Record not present for the given empid (SI:L:91)");
+		else
+			employeeDao.updateEmployee(employeeEntity);
 	}
 
 	public int verifyRecords() throws Exception{

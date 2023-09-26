@@ -17,4 +17,6 @@ public interface EmployeeService {
 	List<EmployeeEntity> auditTable(int empid) throws Exception;
 
 	void deleteEmployee(int empid) throws Exception;
+
+	void updateEmployee(EmployeeEntity employeeEntity) throws Exception;
 }

@@ -54,6 +54,15 @@ public class EmployeeController {
 		return ResponseEntity.ok(response);
 	}
 
+	@PutMapping (value = "/employees", produces = "application/json; charset=UTF-8")
+	public ResponseEntity<EmployeeResponse> deleteEmployee(@RequestBody EmployeeEntity employeeEntity) throws Exception{
+		EmployeeResponse response = new EmployeeResponse();
+		response.setStatusCode(HttpStatus.OK.value());
+		response.setStatusMessage("Success");
+		employeeService.updateEmployee(employeeEntity);
+		return ResponseEntity.ok(response);
+	}
+
 	@GetMapping (value = "/employeeDelete/{empid}", produces = "application/json; charset=UTF-8")
 	public ResponseEntity<EmployeeResponse> deleteEmployee(@PathVariable int empid) throws Exception{
 		EmployeeResponse response = new EmployeeResponse();

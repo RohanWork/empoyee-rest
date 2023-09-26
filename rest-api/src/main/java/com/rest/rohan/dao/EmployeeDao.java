@@ -12,6 +12,8 @@ public interface EmployeeDao {
 	
 	int createEmployee(EmployeeEntity request) throws Exception;
 
+	void updateEmployee(EmployeeEntity request) throws Exception;
+
 	List<EmployeeEntity> auditTable(int empid) throws Exception;
 
 	int deleteEmployee(int empid) throws Exception;

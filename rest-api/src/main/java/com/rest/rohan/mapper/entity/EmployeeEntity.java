@@ -1,6 +1,7 @@
 package com.rest.rohan.mapper.entity;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -19,13 +20,16 @@ public class EmployeeEntity {
 	private String department;
 	private String location;
 	private BigDecimal salary;
+	private String action;
+	private Timestamp row_del_tms;
+	private Timestamp row_ins_tms;
 	
 	public EmployeeEntity() {
 		super();
 	}
 
 	public EmployeeEntity(int empid, String fname, String lname, String mailid, String department, String location,
-			BigDecimal salary) {
+			BigDecimal salary, String action, Timestamp row_del_tms, Timestamp row_ins_tms) {
 		super();
 		this.empid = empid;
 		this.fname = fname;
@@ -34,6 +38,9 @@ public class EmployeeEntity {
 		this.department = department;
 		this.location = location;
 		this.salary = salary;
+		this.action = action;
+		this.row_ins_tms = row_ins_tms;
+		this.row_del_tms = row_del_tms;
 	}
 
 	public int getEmpid() {
@@ -91,5 +98,28 @@ public class EmployeeEntity {
 	public void setSalary(BigDecimal salary) {
 		this.salary = salary;
 	}
-	
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public Timestamp getRow_del_tms() {
+		return row_del_tms;
+	}
+
+	public void setRow_del_tms(Timestamp row_del_tms) {
+		this.row_del_tms = row_del_tms;
+	}
+
+	public Timestamp getRow_ins_tms() {
+		return row_ins_tms;
+	}
+
+	public void setRow_ins_tms(Timestamp row_ins_tms) {
+		this.row_ins_tms = row_ins_tms;
+	}
 }

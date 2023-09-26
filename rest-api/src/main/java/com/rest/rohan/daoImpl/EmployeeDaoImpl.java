@@ -49,11 +49,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	private String sqlUpdateAuditTable(){
-		return "UPDATE "+tableName2+" SET action = :action, row_del_tms = :row_del_tms WHERE empid = :empid";
+		return "UPDATE "+tableName2+" SET action = :action, row_del_tms = :row_del_tms WHERE empid = :empid and action='insert'";
 	}
 
 	private String sqlVerifyRecords(){
 		return "SELECT COUNT(*) FROM "+tableName1;
+	}
+
+	private String sqlUpdateMainTable() {
+		return "update "+tableName1+" set fname=:fname, lname=:lname, department=:department, location=:location, salary=:salary where empid=:empid";
 	}
 
 
@@ -103,7 +107,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		int rowCount = namedParameterJdbcTemplate.update(sqlAddEmployeeToEM(), params);
 
 		if (rowCount != 1) {
-			throw new ValidationException("Error while adding new employee to table");
+			throw new ValidationException("Error while adding new employee to table (DI:L:110)");
 		} else {
 			params.addValue("action", ("insert").toLowerCase());
 			params.addValue("row_ins_tms", currentTimestamp);
@@ -111,9 +115,33 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			int res = namedParameterJdbcTemplate.update(sqlAddEmployeeToEA(), params);
 
 			if (res != 1)
-				throw new ValidationException("Error while adding new employee to audit table");
+				throw new ValidationException("Error while adding new employee to audit table (DI:L:118)");
 			else
 				return res;
+		}
+	}
+
+	@Override
+	public void updateEmployee(EmployeeEntity request) throws Exception {
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("empid", request.getEmpid());
+		params.addValue("fname", request.getFname().toLowerCase());
+		params.addValue("lname", request.getLname().toLowerCase());
+		params.addValue("mailid", request.getMailid().toLowerCase());
+		params.addValue("department", request.getDepartment().toLowerCase());
+		params.addValue("location", request.getLocation().toLowerCase());
+		params.addValue("salary", request.getSalary());
+
+		int rowAffected = namedParameterJdbcTemplate.update(sqlUpdateMainTable(), params);
+		if (rowAffected==0)
+			throw new ValidationException("Error while updating record (DI:L:137)");
+		else {
+			params.addValue("action", ("update").toLowerCase());
+			params.addValue("row_ins_tms", currentTimestamp);
+			params.addValue("row_del_tms", null);
+			int res = namedParameterJdbcTemplate.update(sqlAddEmployeeToEA(), params);
+			if (res!=1)
+				throw new ValidationException("Error while inserting new record in update (DI:L:144)");
 		}
 	}
 
@@ -131,13 +159,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		param.addValue("empid", empid);
 		int rowCount = namedParameterJdbcTemplate.update(sqlDeleteEmployeeById(), param);
 		if (rowCount!=1)
-			throw new ValidationException("Error while deleting record DAOIMPL");
+			throw new ValidationException("Error while deleting record (DI:L:162)");
 		else {
 			param.addValue("action","delete");
 			param.addValue("row_del_tms",currentTimestamp);
 			int rowAffect = namedParameterJdbcTemplate.update(sqlUpdateAuditTable(), param);
 			if (rowAffect!=1){
-				throw new ValidationException("Error while updating audit table in delete DAOIMPL");
+				throw new ValidationException("Error while updating audit table in delete (DI:L:168)");
 			}
 			else
 				return rowAffect;
