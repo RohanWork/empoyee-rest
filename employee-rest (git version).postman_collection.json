@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "9ee52616-37f8-4746-bc44-944866c12f47",
+		"name": "employee-rest (git version)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22688115"
+	},
+	"item": [
+		{
+			"name": "/actuator",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/actuator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/actuator/health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/actuator/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees (getAllEmployees)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/empmgn/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empmgn",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees/123 (getEmployeeById)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/empmgn/employees/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empmgn",
+						"employees",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees (createEmployee)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"empid\": 123,\r\n    \"fname\": \"Test1\",\r\n    \"lname\": \"Test2\",\r\n    \"mailid\": \"test1.test2@example.com\",\r\n    \"department\": \"Finance\",\r\n    \"location\": \"Goa\",\r\n    \"salary\": 50000.00\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/empmgn/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empmgn",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employees (updateEmployee)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"empid\": 123,\r\n    \"fname\": \"Test1\",\r\n    \"lname\": \"Test2\",\r\n    \"mailid\": \"test1.test2@example.com\",\r\n    \"department\": \"Finance\",\r\n    \"location\": \"Goa\",\r\n    \"salary\": 60000.00\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/empmgn/employees",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empmgn",
+						"employees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employeeDelete/123 (deleteEmployeeById)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/empmgn/employeeDelete/123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empmgn",
+						"employeeDelete",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/employeesAudit/123 (auditByEmployeeId)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/empmgn/employeesAudit/124",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"empmgn",
+						"employeesAudit",
+						"124"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
