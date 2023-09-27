@@ -1,0 +1,132 @@
+JSON Contracts for Employee Management REST Endpoints
+
+1. GET -> /employees
+    - Retrieves all employee records from the employees table.
+    - Provides details like employee ID, first name, last name, email, department, location, and salary of all employees in the database.
+
+    Response:
+    {
+      "statusCode": 200,
+      "statusMessage": "Success",
+      "getAllEmployees": [v
+          {
+              "empid": int,
+              "fname": String,
+              "lname": String,
+              "mailid": String,
+              "department": String,
+              "location": String,
+              "salary": Decimal
+          },
+          {
+              "empid": int,
+              "fname": String,
+              "lname": String,
+              "mailid": String,
+              "department": String,
+              "location": String,
+              "salary": Decimal
+          }
+      ]
+    }
+
+
+2. GET -> employees/{empid}
+    - Fetches the specific employee's information using their empid.
+    - Returns details including employee ID, first name, last name, email, department, location, and salary for the given empid.
+
+    Response:
+    {
+      "statusCode": 200,
+      "statusMessage": "Success",
+      "getEmployeeById": [
+          {
+               "empid": int,
+               "fname": String,
+               "lname": String,
+               "mailid": String,
+               "department": String,
+               "location": String,
+               "salary": Decimal
+          }
+      ]
+    }
+
+
+3. POST -> /employees
+    - Creates a new employee record in both the `employees` and `employees_audit` tables.
+    - Requires employee data such as ID, first name, last name, email, department, location, and salary in the request body.
+
+    Request:
+    {
+      "empid": int,
+      "fname": String,
+      "lname": String,
+      "mailid": String,
+      "department": String,
+      "location": String,
+      "salary": Decimal
+    }
+
+    Response:
+    {
+      "statusCode": int,
+      "statusMessage": String
+    }
+
+
+4. PUT -> /employees
+    - Updates an existing employee's record in the employee table excluding empid and mailid.
+    - Accepts modified information like ID, first name, last name, department, location, and salary in the request body.
+
+    Request:
+    {
+      "empid": int,
+      "fname": String,
+      "lname": String,
+      "department": String,
+      "location": String,
+      "salary": Decimal
+    }
+
+    Response:
+    {
+      "statusCode": int,
+      "statusMessage": String
+    }
+
+
+5. GET -> /employeeDelete/{empid}
+    - Deletes an employee's record from the employees table based on empid.
+    - Requires the employee's empid in the URL to specify the record to delete.
+
+    Response:
+    {
+      "statusCode": int,
+      "statusMessage": String
+    }
+
+
+6. GET -> /employeesAudit/{empid}
+    - Retrieves audit records related to a specific employee using their empid.
+    - Offers insights into actions taken on the employee's record, such as creation, updates, and deletions, for the given empid.
+
+    Response:
+    {
+      "statusCode": 200,
+      "statusMessage": "Success",
+      "getAllEmployees": [
+          {
+              "empid": int,
+              "fname": String,
+              "lname": String,
+              "mailid": String,
+              "department": String,
+              "location": String,
+              "salary": Decimal,
+              "action": String,
+              "row_ins_tms": Timestamp,
+              "row_del_tms": Timestamp
+          }
+        ]
+    }
