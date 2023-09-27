@@ -28,7 +28,7 @@ Each column in the `employees` table has constraints to ensure that values are n
 - **Read Employee**: Retrieve employee information, including searching by employee ID.
 - **Update Employee**: Modify existing employee records.
 - **Delete Employee**: Remove employee records from the database.
-- **Additional Operations**: Operations specific to employee management needs. Please refer to the [Additional Operations](#Additional_Operations) section.
+- **Additional Operations**: Operations specific to employee management needs. Please refer to the [Additional Operations](#additional-operations) section.
 
 ## Additional Operations
 
