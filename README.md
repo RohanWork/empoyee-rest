@@ -38,7 +38,7 @@ Each column in the employees table has strict constraints to guarantee data qual
 - **Read Employee :** Effortlessly retrieve detailed employee information, including convenient searching by employee ID.
 - **Update Employee :** Seamlessly modify and update existing employee records.
 - **Delete Employee :** Swiftly remove employee records from the database.
-- **Additional Operations :** Explore specialized operations tailored to specific employee management needs in the [Additional Operations](#additional_operations) section.
+- **Additional Operations :** Explore specialized operations tailored to specific employee management needs in the [Additional Operations](#additional-operations) section.
 
 ## Additional Operations
 
