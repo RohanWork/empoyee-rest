@@ -28,7 +28,7 @@ Each column in the `employees` table has constraints to ensure that values are n
 - **Read Employee**: Retrieve employee information, including searching by employee ID.
 - **Update Employee**: Modify existing employee records.
 - **Delete Employee**: Remove employee records from the database.
-- **Additional Operations**: Operations specific to employee management needs. Please refer to the [Additional Operations](##additional-operations) section.
+- **Additional Operations**: Operations specific to employee management needs. Please refer to the [Additional Operations](#Additional_Operations) section.
 
 ## Additional Operations
 
@@ -95,7 +95,7 @@ To run this project locally, follow these steps:
 1. Clone this repository to your local machine.
 2. Configure your MySQL database settings in the application properties.
     - spring.datasource.url=jdbc:mysql://localhost:3306/rest
-    - Under rest create `employees` and `employees_audit` with the mentioned entities as [above](##employees).
+    - Under rest create `employees` and `employees_audit` with the mentioned entities as [above](#employees-table).
 3. Build and run the Spring Boot application.
 
 Make sure you have Java and Maven installed on your machine.
