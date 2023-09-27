@@ -1,4 +1,4 @@
-Certainly! Here's a sample README file description repository that includes a brief overview of your Spring Boot project for employee management with a focus on the table structure:
+README file description repository that includes a brief overview of your Spring Boot project for employee management (CRUD) with a focus on the table structure:
 
 ---
 
@@ -10,7 +10,7 @@ This is a Spring Boot project designed for managing employee data, including Cre
 
 The project uses a MySQL database with the following table structure:
 
-### `employees` Table
+## `employees` Table
 
 - `empid` (INT): Primary key for identifying employees.
 - `fname` (VARCHAR(25)) NOT NULL: First name of the employee.
@@ -28,7 +28,7 @@ Each column in the `employees` table has constraints to ensure that values are n
 - **Read Employee**: Retrieve employee information, including searching by employee ID.
 - **Update Employee**: Modify existing employee records.
 - **Delete Employee**: Remove employee records from the database.
-- **Additional Operations**: Operations specific to employee management needs. Please refer to the [Additional Operations](#additional-operations) section.
+- **Additional Operations**: Operations specific to employee management needs. Please refer to the [Additional Operations](##additional-operations) section.
 
 ## Additional Operations
 
@@ -38,11 +38,10 @@ In addition to the basic CRUD (Create, Read, Update, Delete) operations, this Em
 
 The `employees_audit` table is designed to record audit entries for changes made to employee records. This table helps maintain a historical record of important events and changes within the employee management system.
 
-### Table Structure
+## Table Structure
 
 The `employees_audit` table has the following structure:
 
-- `audit_id` (INT): A unique identifier for each audit entry (auto-incremented).
 - `empid` (INT) NOT NULL: References the employee ID to associate the audit entry with a specific employee.
 - `fname` (VARCHAR(25)) NOT NULL: First name of the employee at the time of the audit.
 - `lname` (VARCHAR(25)) NOT NULL: Last name of the employee at the time of the audit.
@@ -56,9 +55,8 @@ The `employees_audit` table has the following structure:
 
 Each column in the `employees_audit` table has specific purposes related to auditing employee data changes.
 
-### Usage
+## Usage
 
-- **audit_id**: A unique identifier for each audit entry.
 - **empid**: References the employee ID to link audit entries to specific employees.
 - **fname**: Stores the first name of the employee at the time of the audit.
 - **lname**: Stores the last name of the employee at the time of the audit.
@@ -66,29 +64,28 @@ Each column in the `employees_audit` table has specific purposes related to audi
 - **department**: Stores the department of the employee at the time of the audit.
 - **location**: Stores the location or office of the employee at the time of the audit.
 - **salary**: Stores the salary of the employee at the time of the audit.
-- **action**: Describes the type of action that triggered the audit entry (e.g., "Create," "Update," "Delete").
-- **row_ins_tms**: Records the timestamp when the audit entry is inserted.
-- **row_del_tms**: Records the timestamp when the corresponding employee record is deleted.
+- **action**: Describes the type of action that triggered the audit entry (e.g., "Created," "Updated," "Deleted").
+- **row_ins_tms**: Records the timestamp when the audit entry is inserted in table.
+- **row_del_tms**: Records the timestamp when the corresponding employee record is deleted from `employees` table.
 
-### Example
+## Example
 
 Here's an example of an audit entry in the `employees_audit` table:
 
-| audit_id | empid | fname  | lname  | mailid                 | department | location   | salary   | action  | row_ins_tms        | row_del_tms        |
-|----------|-------|--------|--------|------------------------|------------|------------|----------|---------|---------------------|---------------------|
-| 1        | 101   | john   | doe    | john.doe@example.com   | hr         | new york   | 50000.00 | create  | 2023-09-25 10:15:00 |                 |
-| 2        | 101   | john   | smith  | john.smith@example.com | it         | san Francisco | 55000.00 | update  | 2023-09-26 14:30:00 | 2023-09-27 15:20:00 |
-| 3        | 102   | alice  | johnson| alice.johnson@example.com | finance | chicago    | 60000.00 | create  | 2023-09-27 09:45:00 |                 |
-| 4        | 102   | alice  | johnson| alice.johnson@example.com | finance | chicago    | 60000.00 | update  | 2023-09-27 10:00:00 | 2023-09-27 15:20:00 |
+| empid | fname  | lname  | mailid                 | department | location   | salary   | action  | row_ins_tms        | row_del_tms        |
+|-------|--------|--------|------------------------|------------|------------|----------|---------|---------------------|---------------------|
+| 101   | john   | doe    | john.doe@example.com   | hr         | new york   | 50000.00 | created  | 2023-09-25 10:15:00 |                 |
+| 101   | john   | doe  | john.doe@example.com | it         | san Francisco | 55000.00 | updated  | 2023-09-26 14:30:00 |                 |
+| 102   | alice  | johnson| alice.johnson@example.com | finance | chicago    | 60000.00 | created  | 2023-09-27 09:45:00 |                 |
+| 102   | alice  | johnson| alice.johnson@example.com | finance | chicago    | 60000.00 | deleted  | 2023-09-27 10:00:00 | 2023-09-27 15:20:00 |
 
-In this example, audit entries are created when employees are added (`Create`) or updated (`Update`). The `row_del_tms` field remains `NULL` until an employee is deleted or updated, at which point it records the deletion or updation timestamp.
+In this example, audit entries are created when employees are added (`Create`) or updated (`Update`). The `row_del_tms` field remains `NULL` until an employee is deleted, at which point it records the deletion or updation timestamp.
 
-### Audit Trail
+## Audit Trail
 
 The audit functionality allows you to track and maintain a record of important events and changes within the employee management system. It's essential for ensuring data integrity and accountability. The following audit operations are available:
 
-- **View Audit Logs**: `GET /audit` - Retrieve a log of audit events, providing insights into who performed specific actions and when.
-- **Filter by Action Type**: `GET /audit?action={actionType}` - Filter audit logs by specific action types (e.g., Create, Update, Delete).
+- **Filter by Action Type**: `GET /audit?action={actionType}` - Filter audit logs by specific action types (e.g., Created, Updated, Deleted).
 - **Filter by Employee ID**: `GET /audit?empid={empid}` - Filter audit logs by the employee ID to view actions related to a specific employee.
 
 ## Getting Started
@@ -97,6 +94,8 @@ To run this project locally, follow these steps:
 
 1. Clone this repository to your local machine.
 2. Configure your MySQL database settings in the application properties.
+    - spring.datasource.url=jdbc:mysql://localhost:3306/rest
+    - Under rest create `employees` and `employees_audit` with the mentioned entities as [above](##employees).
 3. Build and run the Spring Boot application.
 
 Make sure you have Java and Maven installed on your machine.
