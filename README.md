@@ -1,72 +1,97 @@
-README file description repository that includes a brief overview of your Spring Boot project for employee management (CRUD) with a focus on the table structure:
-
----
-
 # Employee Management System - Spring Boot Project
 
 This is a Spring Boot project designed for managing employee data, including Create, Read, Update, and Delete (CRUD) operations. The project is built in Java and utilizes a MySQL database with a specific table structure to store employee information.
 
-## Table Structure
+## Required Table Structure
 
-The project uses a MySQL database with the following table structure:
+In this project, we utilize a MySQL database with name of **`rest`**, a clear and organized table structure to store employee information. Below, you'll find a detailed breakdown of the tables and their columns.
 
-## `employees` Table
+## The Main Table : `employees`
+The `employees` table has the following structure:
 
-- `empid` (INT): Primary key for identifying employees.
-- `fname` (VARCHAR(25)) NOT NULL: First name of the employee.
-- `lname` (VARCHAR(25)) NOT NULL: Last name of the employee.
-- `mailid` (VARCHAR(25)) NOT NULL: Email ID of the employee.
-- `department` (VARCHAR(25)) NOT NULL: The department to which the employee belongs.
-- `location` (VARCHAR(25)) NOT NULL: The location or office of the employee.
-- `salary` (DECIMAL(10, 2)) NOT NULL: The salary of the employee.
+- **empid : (INT NOT NULL)**
+    - This is the primary key used to uniquely identify each employee.
+ 
+- **fname : (VARCHAR(25) NOT NULL)**
+    - This column stores the first name of the employee. It's mandatory and cannot be left empty.
+ 
+- **lname : (VARCHAR(25) NOT NULL)**
+    - Similar to the first name, this column contains the last name of the employee. It's also mandatory and cannot be null.
+       
+- **mailid : (VARCHAR(100) NOT NULL)**
+    - Here, we store the email address of the employee. Like other fields, it's mandatory to provide a valid email.
+      
+- **department : (VARCHAR(25) NOT NULL)**:
+    - This column specifies the department to which the employee belongs, ensuring organized categorization.
+      
+- **location : (VARCHAR(25) NOT NULL)**:
+    - It stores the location or office where the employee is situated, facilitating easy tracking.
+      
+- **salary :  (DECIMAL(10, 2) NOT NULL)**:
+    - The salary of each employee is maintained here with precision using the DECIMAL data type (10, 2).
 
-Each column in the `employees` table has constraints to ensure that values are not null and do not contain empty strings.
+Each column in the employees table has strict constraints to guarantee data quality, preventing null values and empty strings from being stored. This structured approach ensures the reliability of employee data within the system.
 
 ## Features
 
-- **Create Employee**: Add new employee records to the database.
-- **Read Employee**: Retrieve employee information, including searching by employee ID.
-- **Update Employee**: Modify existing employee records.
-- **Delete Employee**: Remove employee records from the database.
-- **Additional Operations**: Operations specific to employee management needs. Please refer to the [Additional Operations](#additional-operations) section.
+- **Create Employee :** Easily add new employee records to the database.
+- **Read Employee :** Effortlessly retrieve detailed employee information, including convenient searching by employee ID.
+- **Update Employee :** Seamlessly modify and update existing employee records.
+- **Delete Employee :** Swiftly remove employee records from the database.
+- **Additional Operations :** Explore specialized operations tailored to specific employee management needs in the [Additional Operations](#additional_operations) section.
 
 ## Additional Operations
 
-In addition to the basic CRUD (Create, Read, Update, Delete) operations, this Employee Management REST API project offers a range of additional operations to enhance functionality.
+In addition to the basic CRUD (Create, Read, Update, Delete) operations, this Employee Management REST API project offers some extra functionalities to make managing employee data even more versatile.
 
-## Employee Audit Table - `employees_audit`
+## Audit Table Structure
 
-The `employees_audit` table is designed to record audit entries for changes made to employee records. This table helps maintain a historical record of important events and changes within the employee management system.
+The `employees_audit` table is designed to record audit entries for changes made to employee records. This table helps maintain a historical record of important changes within the employee management system.
 
-## Table Structure
-
+## The Audit Table : `employees_audit`
 The `employees_audit` table has the following structure:
 
-- `empid` (INT) NOT NULL: References the employee ID to associate the audit entry with a specific employee.
-- `fname` (VARCHAR(25)) NOT NULL: First name of the employee at the time of the audit.
-- `lname` (VARCHAR(25)) NOT NULL: Last name of the employee at the time of the audit.
-- `mailid` (VARCHAR(25)) NOT NULL: Email ID of the employee.
-- `department` (VARCHAR(25)) NOT NULL: The department to which the employee belongs.
-- `location` (VARCHAR(25)) NOT NULL: The location or office of the employee at the time of the audit.
-- `salary` (DECIMAL(10, 2)) NOT NULL: The salary of the employee at the time of the audit.
-- `action` (VARCHAR(10)) NOT NULL: Describes the type of action (e.g., "Create," "Update," "Delete").
-- `row_ins_tms` (TIMESTAMP): Records the timestamp when the audit entry is inserted (defaults to the current timestamp).
-- `row_del_tms` (TIMESTAMP): Records the timestamp when the corresponding employee record is deleted (nullable).
+- **empid : (INT NOT NULL)**
+    - This is the primary key used to uniquely identify each employee.
 
-Each column in the `employees_audit` table has specific purposes related to auditing employee data changes.
+- **fname : (VARCHAR(25) NOT NULL)**
+    - This column stores the first name of the employee. It's mandatory and cannot be left empty.
 
-## Usage
+- **lname : (VARCHAR(25) NOT NULL)**
+    - Similar to the first name, this column contains the last name of the employee. It's also mandatory and cannot be null.
 
-- **empid**: References the employee ID to link audit entries to specific employees.
-- **fname**: Stores the first name of the employee at the time of the audit.
-- **lname**: Stores the last name of the employee at the time of the audit.
-- **mailid**: Stores the email ID of the employee at the time of the audit.
-- **department**: Stores the department of the employee at the time of the audit.
-- **location**: Stores the location or office of the employee at the time of the audit.
-- **salary**: Stores the salary of the employee at the time of the audit.
-- **action**: Describes the type of action that triggered the audit entry (e.g., "Created," "Updated," "Deleted").
-- **row_ins_tms**: Records the timestamp when the audit entry is inserted in table.
-- **row_del_tms**: Records the timestamp when the corresponding employee record is deleted from `employees` table.
+- **mailid : (VARCHAR(100) NOT NULL)**
+    - Here, we store the email address of the employee. Like other fields, it's mandatory to provide a valid email.
+
+- **department : (VARCHAR(25) NOT NULL)**:
+    - This column specifies the department to which the employee belongs, ensuring organized categorization.
+
+- **location : (VARCHAR(25) NOT NULL)**:
+    - It stores the location or office where the employee is situated, facilitating easy tracking.
+
+- **salary :  (DECIMAL(10, 2) NOT NULL)**:
+    - The salary of each employee is maintained here with precision using the DECIMAL data type (10, 2).
+
+- **action : (VARCHAR(10) NOT NULL)**
+    - The action column specifies the nature of the event (e.g., "Create," "Update," "Delete"), allowing you to trace every change.
+
+- **row_ins_tms : (TIMESTAMP)**
+    - This timestamp records when the audit entry was inserted, offering a chronological view of events (defaults to the current timestamp).
+
+- **row_del_tms : (TIMESTAMP)**
+    - Indicating when the corresponding employee record was deleted, if applicable, for a comprehensive historical record.
+
+Each row in the employees_audit table captures a pivotal moment in the journey of an employee within the organization. This table functions as the historical archive, recording crucial events and changes related to employee records. It's like the backstage pass to understanding the evolution of your workforce management system.
+
+## Audit Trail
+
+The audit functionality enables you to monitor and preserve a log of significant events and modifications within the employee management system. It plays a crucial role in upholding data integrity and accountability. The following audit operations are available:
+
+- **Filter by Action Type :**  `GET /audit?action={actionType}`
+    - Filter audit logs by specific action types (e.g., Created, Updated, Deleted).
+
+- **Filter by Employee ID :**  `GET /audit?empid={empid}`
+    - Filter audit logs by employee ID to review actions related to a specific employee.
 
 ## Example
 
@@ -81,22 +106,15 @@ Here's an example of an audit entry in the `employees_audit` table:
 
 In this example, audit entries are created when employees are added (`Create`) or updated (`Update`). The `row_del_tms` field remains `NULL` until an employee is deleted, at which point it records the deletion or updation timestamp.
 
-## Audit Trail
-
-The audit functionality allows you to track and maintain a record of important events and changes within the employee management system. It's essential for ensuring data integrity and accountability. The following audit operations are available:
-
-- **Filter by Action Type**: `GET /audit?action={actionType}` - Filter audit logs by specific action types (e.g., Created, Updated, Deleted).
-- **Filter by Employee ID**: `GET /audit?empid={empid}` - Filter audit logs by the employee ID to view actions related to a specific employee.
-
 ## Getting Started
 
 To run this project locally, follow these steps:
-
-1. Clone this repository to your local machine.
-2. Configure your MySQL database settings in the application properties.
+1. Make sure you have Java and Maven installed on your machine.
+2. Clone [employee-rest](https://github.com/RohanWork/empoyee-rest) repository to your local machine.
+3. Configure your MySQL database settings in the application properties.
     - spring.datasource.url=jdbc:mysql://localhost:3306/rest
-    - Under rest create `employees` and `employees_audit` with the mentioned entities as [above](#employees-table).
-3. Build and run the Spring Boot application.
-
-Make sure you have Java and Maven installed on your machine.
+    - Under rest database create `employees` and `employees_audit` table with the mentioned entities as in [The Main Table - employees](#the-main-table--employees) and [The Audit Table - employees_audit](#the-audit-table--employees_audit).
+4. Build and run the Spring Boot application.
+5. You can find the local testing files for the endpoints includes [JSON Contracts](https://github.com/RohanWork/empoyee-rest/blob/main/json%20contracts) and [Postman Collection](https://github.com/RohanWork/empoyee-rest/blob/main/employee-rest%20(git%20version).postman_collection.json)
+6. You are good to go.
 
