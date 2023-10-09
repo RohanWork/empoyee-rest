@@ -32,6 +32,18 @@ The `employees` table has the following structure:
 
 Each column in the employees table has strict constraints to guarantee data quality, preventing null values and empty strings from being stored. This structured approach ensures the reliability of employee data within the system.
 
+## Here is the SQL command to create `employees` table
+    
+      CREATE TABLE employees (
+        empid INT PRIMARY KEY,
+        fname VARCHAR(25),
+        lname VARCHAR(25),
+        mailid VARCHAR(255),
+        department VARCHAR(25),
+        location VARCHAR(25),
+        salary DECIMAL(10, 2)
+      );
+
 ## Features
 
 - **Create Employee :** Easily add new employee records to the database.
@@ -82,6 +94,21 @@ The `employees_audit` table has the following structure:
     - Indicating when the corresponding employee record was deleted, if applicable, for a comprehensive historical record.
 
 Each row in the employees_audit table captures a pivotal moment in the journey of an employee within the organization. This table functions as the historical archive, recording crucial events and changes related to employee records. It's like the backstage pass to understanding the evolution of your workforce management system.
+
+## Here is the SQL command to create `employees_audit` table
+
+    CREATE TABLE employees_audit (
+      empid INT NOT NULL,
+      fname VARCHAR(25) NOT NULL,
+      lname VARCHAR(25) NOT NULL,
+      mailid VARCHAR(255) NOT NULL,
+      dapartment VARCHAR(25) NOT NULL,
+      location VARCHAR(25) NOT NULL,
+      salary DECIMAL(10, 2) NOT NULL,
+      action VARCHAR(10) NOT NULL,
+      row_ins_tms TIMESTAMP,
+      row_del_tms TIMESTAMP
+    );
 
 ## Audit Trail
 
