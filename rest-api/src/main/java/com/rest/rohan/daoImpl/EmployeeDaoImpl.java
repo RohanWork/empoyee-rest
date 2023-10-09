@@ -21,7 +21,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(System.currentTimeMillis());
 
-	private final String tableName1 = "employees";
+	public static int getLineNumber() {
+		return Thread.currentThread().getStackTrace()[2].getLineNumber();
+	}
+
+	private final String tableName1 = "employee";
 	protected final String tableName2 = "employees_audit";
 
 	private String sqlAllEmployees() throws Exception {
@@ -107,7 +111,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		int rowCount = namedParameterJdbcTemplate.update(sqlAddEmployeeToEM(), params);
 
 		if (rowCount != 1) {
-			throw new ValidationException("Error while adding new employee to table (DI:L:110)");
+			throw new ValidationException("Error while adding new employee to table (DI:L:"+getLineNumber()+")");
 		} else {
 			params.addValue("action", ("insert").toLowerCase());
 			params.addValue("row_ins_tms", currentTimestamp);
@@ -115,7 +119,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			int res = namedParameterJdbcTemplate.update(sqlAddEmployeeToEA(), params);
 
 			if (res != 1)
-				throw new ValidationException("Error while adding new employee to audit table (DI:L:118)");
+				throw new ValidationException("Error while adding new employee to audit table (DI:L:"+getLineNumber()+")");
 			else
 				return res;
 		}
@@ -134,14 +138,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 		int rowAffected = namedParameterJdbcTemplate.update(sqlUpdateMainTable(), params);
 		if (rowAffected==0)
-			throw new ValidationException("Error while updating record (DI:L:137)");
+			throw new ValidationException("Error while updating record (DI:L:"+getLineNumber()+")");
 		else {
 			params.addValue("action", ("update").toLowerCase());
 			params.addValue("row_ins_tms", currentTimestamp);
 			params.addValue("row_del_tms", null);
 			int res = namedParameterJdbcTemplate.update(sqlAddEmployeeToEA(), params);
 			if (res!=1)
-				throw new ValidationException("Error while inserting new record in update (DI:L:144)");
+				throw new ValidationException("Error while inserting new record in update (DI:L:"+getLineNumber()+")");
 		}
 	}
 
@@ -159,13 +163,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		param.addValue("empid", empid);
 		int rowCount = namedParameterJdbcTemplate.update(sqlDeleteEmployeeById(), param);
 		if (rowCount!=1)
-			throw new ValidationException("Error while deleting record (DI:L:162)");
+			throw new ValidationException("Error while deleting record (DI:L:"+getLineNumber()+")");
 		else {
 			param.addValue("action","delete");
 			param.addValue("row_del_tms",currentTimestamp);
 			int rowAffect = namedParameterJdbcTemplate.update(sqlUpdateAuditTable(), param);
 			if (rowAffect!=1){
-				throw new ValidationException("Error while updating audit table in delete (DI:L:168)");
+				throw new ValidationException("Error while updating audit table in delete (DI:L:"+getLineNumber()+")");
 			}
 			else
 				return rowAffect;

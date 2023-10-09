@@ -19,14 +19,18 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Autowired
 	EmployeeDao employeeDao;
+
+	public static int getLineNumber() {
+		return Thread.currentThread().getStackTrace()[2].getLineNumber();
+	}
 	
 	@Override
 	public List<EmployeeEntity> getAllEmployees() throws Exception {
 		List<EmployeeEntity> employees = employeeDao.getAllEmployees();
 		
-		if (employees.isEmpty())
-			throw new ValidationException("Not able to retrieve any records from the database (SI:L:28)");
-		else
+		if (employees.isEmpty()) {
+			throw new ValidationException("Not able to retrieve any records from the database (ServiceImpl:Line:"+getLineNumber()+")");
+		}else
 			return employees;		
 	}
 	
@@ -49,7 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 		{
 			int rowsAffected = employeeDao.createEmployee(request);
 			if (rowsAffected!=1)
-				throw new ValidationException("Error while adding new employee (SI:L:52)");
+				throw new ValidationException("Error while adding new employee (ServiceImpl:Line:"+getLineNumber()+")");
 		}
 	}
 
@@ -57,11 +61,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<EmployeeEntity> auditTable(int empid) throws Exception{
 		int rowPresent = isRecordExists(empid);
 		if (rowPresent==0)
-			throw new ValidationException("Employee recored not available (SI:L:60)");
+			throw new ValidationException("Employee recored not available (ServiceImpl:Line:"+getLineNumber()+")");
 		else {
 			List<EmployeeEntity> auditRecord = employeeDao.auditTable(empid);
 			if (auditRecord.isEmpty())
-				throw new ValidationException("Not able to retrieve any records from the database (SI:L:64)");
+				throw new ValidationException("Not able to retrieve any records from the database (ServiceImpl:Line:"+getLineNumber()+")");
 			else
 				return auditRecord;
 		}
@@ -71,15 +75,15 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public void deleteEmployee(int empid) throws Exception{
 		int rowPresent = isRecordExists(empid);
 		if (rowPresent==0)
-			throw new ValidationException("Employee recored not available (SI:L:74)");
+			throw new ValidationException("Employee recored not available (ServiceImpl:Line:"+getLineNumber()+")");
 		else {
 			int rowCount = verifyRecords();
 			if (rowCount == 1)
-				throw new ValidationException("Only one record is present not able to perform delete operation (SI:L:78)");
+				throw new ValidationException("Only one record is present not able to perform delete operation (ServiceImpl:Line:"+getLineNumber()+")");
 			else {
 				int rowResult = employeeDao.deleteEmployee(empid);
 				if (rowResult != 1)
-					throw new ValidationException("Error while deleting record (SI:L:82)");
+					throw new ValidationException("Error while deleting record (ServiceImpl:Line:"+getLineNumber()+")");
 			}
 		}
 	}
@@ -88,7 +92,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public void updateEmployee(EmployeeEntity employeeEntity) throws Exception {
 		int rowPresent = isRecordExists(employeeEntity.getEmpid());
 		if (rowPresent==0)
-			throw new ValidationException("Record not present for the given empid (SI:L:91)");
+			throw new ValidationException("Record not present for the given empid (ServiceImpl:Line:"+getLineNumber()+")");
 		else
 			employeeDao.updateEmployee(employeeEntity);
 	}
