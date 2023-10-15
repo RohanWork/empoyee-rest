@@ -3,14 +3,12 @@ package com.rest.rohan.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import com.rest.rohan.mapper.entity.EmployeeEntity;
 import com.rest.rohan.response.EmployeeResponse;
 import com.rest.rohan.service.EmployeeService;
 
-@Controller
+@RestController
 @RequestMapping("/empmgn")
 public class EmployeeController {
 
