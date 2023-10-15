@@ -1,5 +1,6 @@
 package com.rest.rohan.mapper.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,7 +8,7 @@ import lombok.ToString;
 
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EmployeeEntity {
+public class EmployeeEntity implements Serializable {
 	
 	private int empid;
 	private String fname;

@@ -1,8 +1,12 @@
 package com.rest.rohan.serviceImpl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import com.rest.rohan.exception.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import com.rest.rohan.dao.EmployeeDao;
 import com.rest.rohan.mapper.entity.EmployeeEntity;
@@ -14,6 +18,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	EmployeeDao employeeDao;
 
+	@Autowired
+	RedisTemplate redisTemplate;
+
 	public static int getLineNumber() {
 		return Thread.currentThread().getStackTrace()[2].getLineNumber();
 	}
@@ -22,10 +29,22 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<EmployeeEntity> getAllEmployees() throws Exception {
 		List<EmployeeEntity> employees = employeeDao.getAllEmployees();
 
+		String cacheKey = "emp";
+		ValueOperations<String,List<EmployeeEntity>> operations = redisTemplate.opsForValue();
+		if (redisTemplate.hasKey(cacheKey)){
+			List<EmployeeEntity> val = operations.get(cacheKey);
+			if (cacheKey!=null){
+				return val;
+			}
+		}
+
 		if (employees.isEmpty()) {
 			throw new ValidationException("Not able to retrieve any records from the database (ServiceImpl:Line:"+getLineNumber()+")");
-		}else
+		}else{
+			operations.set(cacheKey, employees);
+			redisTemplate.expire(cacheKey, 1, TimeUnit.HOURS);
 			return employees;
+		}
 	}
 	
 	@Override
