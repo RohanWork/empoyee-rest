@@ -1,9 +1,6 @@
 package com.rest.rohan.service;
 
 import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.rest.rohan.mapper.entity.EmployeeEntity;
 
 public interface EmployeeService {
