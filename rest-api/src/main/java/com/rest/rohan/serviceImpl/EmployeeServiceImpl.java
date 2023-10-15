@@ -1,15 +1,13 @@
 package com.rest.rohan.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.rest.rohan.exception.ValidationException;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-
 import com.rest.rohan.dao.EmployeeDao;
 import com.rest.rohan.mapper.entity.EmployeeEntity;
 import com.rest.rohan.service.EmployeeService;
@@ -20,6 +18,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Autowired
 	EmployeeDao employeeDao;
 
+	@Autowired
+	RedisTemplate redisTemplate;
+
 	public static int getLineNumber() {
 		return Thread.currentThread().getStackTrace()[2].getLineNumber();
 	}
@@ -27,11 +28,23 @@ public class EmployeeServiceImpl implements EmployeeService{
 	@Override
 	public List<EmployeeEntity> getAllEmployees() throws Exception {
 		List<EmployeeEntity> employees = employeeDao.getAllEmployees();
-		
+
+		String cacheKey = "emp";
+		ValueOperations<String,List<EmployeeEntity>> operations = redisTemplate.opsForValue();
+		if (redisTemplate.hasKey(cacheKey)){
+			List<EmployeeEntity> val = operations.get(cacheKey);
+			if (cacheKey!=null){
+				return val;
+			}
+		}
+
 		if (employees.isEmpty()) {
 			throw new ValidationException("Not able to retrieve any records from the database (ServiceImpl:Line:"+getLineNumber()+")");
-		}else
-			return employees;		
+		}else{
+			operations.set(cacheKey, employees);
+			redisTemplate.expire(cacheKey, 1, TimeUnit.HOURS);
+			return employees;
+		}
 	}
 	
 	@Override
@@ -61,11 +74,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 	public List<EmployeeEntity> auditTable(int empid) throws Exception{
 		int rowPresent = isRecordExists(empid);
 		if (rowPresent==0)
-			throw new ValidationException("Employee recored not available (ServiceImpl:Line:"+getLineNumber()+")");
+			throw new ValidationException("Employee recored not available in main table (ServiceImpl:Line:"+getLineNumber()+")");
 		else {
 			List<EmployeeEntity> auditRecord = employeeDao.auditTable(empid);
 			if (auditRecord.isEmpty())
-				throw new ValidationException("Not able to retrieve any records from the database (ServiceImpl:Line:"+getLineNumber()+")");
+				throw new ValidationException("Not able to retrieve any records from the audit table (ServiceImpl:Line:"+getLineNumber()+")");
 			else
 				return auditRecord;
 		}

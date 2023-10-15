@@ -67,8 +67,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Override
 	public List<EmployeeEntity> getAllEmployees() throws Exception {
-		MapSqlParameterSource param = new MapSqlParameterSource();
-		return namedParameterJdbcTemplate.query(sqlAllEmployees(), param, new BeanPropertyRowMapper<>(EmployeeEntity.class));
+		return namedParameterJdbcTemplate.query(sqlAllEmployees(), new BeanPropertyRowMapper<>(EmployeeEntity.class));
 	}
 
 //	@Override
